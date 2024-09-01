@@ -1,0 +1,19 @@
+{
+    "name": "manuel/tournamentmanager",
+    "type": "project",
+    "require": {
+        "schneidermanuel/dynalinker": "^1.0"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Manuel\\Tournamentmanager\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Schneider Manuel",
+            "email": "brainyxs@gmail.com"
+        }
+    ]
+}
