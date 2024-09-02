@@ -4,10 +4,14 @@ module.exports = {
     "./src/**/*.{html,ts}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      backgroundImage: {
+        'radial-gradient': 'radial-gradient(var(--tw-gradient-stops))',
+      },
+    },
   },
   daisyui: {
-    themes: ['forest']
+    themes: ['forest', 'synthwave']
   },
   plugins: [
     require('daisyui')

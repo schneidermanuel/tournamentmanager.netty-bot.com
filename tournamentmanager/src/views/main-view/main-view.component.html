@@ -1,4 +1,5 @@
-<div class="h-screen w-full justify-center flex text-center flex-col bg-gradient-to-tl from-base-100 to-neutral">
+<div class="h-screen w-full justify-center flex text-center flex-col from-neutral to-base-100 bg-radial-gradient"
+  [ngStyle]="{'background-image': gradientStyle}">
   <div class="h-auto">
     <h1 data-aos="fade-up" class="text-6xl text-primary font-sans mb-5">Tournaments hosted by Netty</h1>
     <p data-aos="fade-up" class="text-2xl text-secondary mb-10">With the tournament-manager included in Netty, we
@@ -11,7 +12,7 @@
         <a class="btn btn-primary btn-outline mr-5"
           href="https://discord.com/oauth2/authorize?client_id=898251551183896586&response_type=code&redirect_uri=https%3A%2F%2Fapi.tournamentmanager.netty-bot.com%2FLogin%2FAuthenticated&scope=identify">Log
           in</a>
-        <a class="btn btn-secondary btn-outline" href="mailto:kontakt@brainyxs.com">Request access</a>
+        <a class="btn btn-accent btn-outline" href="mailto:kontakt@brainyxs.com">Request access</a>
       </div>
     </div>
   </div>
