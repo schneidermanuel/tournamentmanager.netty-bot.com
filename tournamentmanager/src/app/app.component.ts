@@ -3,7 +3,7 @@ import { RouterOutlet } from '@angular/router';
 import { NotificationItemComponent } from "../components/notification-item/notification-item.component";
 import { EventBar } from '../Data/EventBar';
 import { NgFor } from '@angular/common';
-import { AutoAnimateModule } from '@formkit/auto-animate/angular'
+import { NotificationService } from '../Service/NotificationService';
 
 @Component({
   selector: 'app-root',
@@ -11,18 +11,17 @@ import { AutoAnimateModule } from '@formkit/auto-animate/angular'
   imports: [
     RouterOutlet,
     NotificationItemComponent,
-    NgFor,
-    AutoAnimateModule
+    NgFor
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
 export class AppComponent implements OnInit {
+  constructor(private notificationService: NotificationService) { }
   ngOnInit(): void {
-    this.Notifications.push(new EventBar("I", "This website is still under development"))
-    this.Notifications.push(new EventBar("I", "This website is still under development"))
-    this.Notifications.push(new EventBar("I", "This website is still under development"))
-    this.Notifications.push(new EventBar("I", "This website is still under development"))
+    this.notificationService.EventSource.subscribe(e => {
+      this.Notifications.push(e);
+    });
   }
   title = 'tournamentmanager';
   public Notifications: EventBar[] = [];

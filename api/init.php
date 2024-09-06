@@ -8,7 +8,7 @@ require 'vendor/autoload.php';
 
 $_HEADER = getallheaders();
 
-header('Access-Control-Allow-Origin: https://tabugame.brainyxs.com');
+header('Access-Control-Allow-Origin: ' . $_SERVER['HTTP_ORIGIN']);
 header('Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, Authorization');
 header("Access-Control-Allow-Credentials: true");
 header('Content-Type: application/json');
@@ -24,4 +24,3 @@ $_POST = json_decode(file_get_contents("php://input"), true);
 $dynalinker = Dynalinker::Get();
 $dynalinker->AddController("Login", new AuthController());
 $dynalinker->Run();
-

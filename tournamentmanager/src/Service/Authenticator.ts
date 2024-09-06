@@ -1,11 +1,13 @@
 import { Injectable } from "@angular/core";
 import { CookieService } from "ngx-cookie-service";
+import { Api } from "./Api";
 
 @Injectable({
   providedIn: 'root'
 })
 export class Authenticator {
   private token: String = "";
+  private manageAllowed: boolean;
   private inited: boolean = false;
 
   GetToken() {
@@ -17,8 +19,9 @@ export class Authenticator {
     this.cookieService.delete("token");
   }
 
-  constructor(private cookieService: CookieService) {
+  constructor(private cookieService: CookieService, private api: Api) {
     this.token = this.cookieService.get("token");
+    api.SendGetRequest("Login/me");
   }
 
   public IsAuthenticated(): boolean {
