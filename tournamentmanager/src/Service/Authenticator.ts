@@ -5,13 +5,17 @@ import { CookieService } from "ngx-cookie-service";
   providedIn: 'root'
 })
 export class Authenticator {
+  private token: String = "";
+  private inited: boolean = false;
+
+  GetToken() {
+    return this.token;
+  }
   LogOut() {
     this.token = "";
     this.inited = false;
     this.cookieService.delete("token");
   }
-  private token: String = "";
-  private inited: boolean = false;
 
   constructor(private cookieService: CookieService) {
     this.token = this.cookieService.get("token");
