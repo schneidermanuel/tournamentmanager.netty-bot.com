@@ -1,17 +1,21 @@
-import { NgStyle } from '@angular/common';
+import { NgIf, NgStyle } from '@angular/common';
 import { Component, HostListener, OnInit } from '@angular/core';
-import { CookieService } from 'ngx-cookie-service';
+import { Authenticator } from '../../Service/Authenticator';
 
 @Component({
   selector: 'app-main-view',
   standalone: true,
-  imports: [NgStyle],
+  imports: [
+    NgStyle,
+    NgIf
+  ],
   templateUrl: './main-view.component.html',
   styleUrl: './main-view.component.css'
 })
 export class MainViewComponent implements OnInit {
+  public isAuthenticated: boolean = false;
 
-  constructor(private cookieService: CookieService) { }
+  constructor(private authenticator: Authenticator) { }
   gradientStyle = '';
 
   @HostListener('mousemove', ['$event'])
@@ -22,8 +26,11 @@ export class MainViewComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.isAuthenticated = this.authenticator.IsAuthenticated();
     this.gradientStyle = `radial-gradient(circle at center, var(--tw-gradient-from), var(--tw-gradient-to))`;
-    let token = this.cookieService.get("token");
-    console.log(token);
+  }
+  public LogOut(): void {
+    this.authenticator.LogOut();
+    this.isAuthenticated = false;
   }
 }
