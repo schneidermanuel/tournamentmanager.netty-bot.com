@@ -2,6 +2,7 @@
 
 namespace Manuel\Tournamentmanager\controllers;
 
+use Manuel\Tournamentmanager\Core\HeaderHelper;
 use Manuel\Tournamentmanager\Core\Request;
 use Schneidermanuel\Dynalinker\Controller\HttpGet;
 use Schneidermanuel\Dynalinker\Core\Dynalinker;

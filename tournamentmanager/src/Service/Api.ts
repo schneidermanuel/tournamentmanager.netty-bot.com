@@ -1,5 +1,4 @@
 import { Injectable } from "@angular/core";
-import { Authenticator } from "./Authenticator";
 import { NotificationService } from "./NotificationService";
 import { CookieService } from "ngx-cookie-service";
 
@@ -14,7 +13,7 @@ export class Api {
     let headers = new Headers();
     headers.set("Authorization", "Bearer " + this.cookieService.get("token"))
 
-    await fetch(this._backendUrl + location, {
+    return await fetch(this._backendUrl + location, {
       method: "GET",
       headers: headers
     })
@@ -28,8 +27,10 @@ export class Api {
       })
       .then(data => {
         if (data != null) {
-          this.notificationService.ShowMessage(data);
+          return data.Message;
         }
-      })
+        this.notificationService.ShowWarnung("Server returned success without data")
+        return null;
+      });
   }
 }

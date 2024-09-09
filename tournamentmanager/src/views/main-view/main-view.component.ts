@@ -1,13 +1,16 @@
 import { NgIf, NgStyle } from '@angular/common';
 import { Component, HostListener, OnInit } from '@angular/core';
 import { Authenticator } from '../../Service/Authenticator';
+import { RouterLink } from '@angular/router';
+import { GlobalState } from '../../Service/GlobalState';
 
 @Component({
   selector: 'app-main-view',
   standalone: true,
   imports: [
     NgStyle,
-    NgIf
+    NgIf,
+    RouterLink
   ],
   templateUrl: './main-view.component.html',
   styleUrl: './main-view.component.css'
@@ -15,7 +18,7 @@ import { Authenticator } from '../../Service/Authenticator';
 export class MainViewComponent implements OnInit {
   public isAuthenticated: boolean = false;
 
-  constructor(private authenticator: Authenticator) { }
+  constructor(private authenticator: Authenticator, public GlobalState: GlobalState) { }
   gradientStyle = '';
 
   @HostListener('mousemove', ['$event'])
@@ -25,8 +28,8 @@ export class MainViewComponent implements OnInit {
     this.gradientStyle = `radial-gradient(circle at ${x}px ${y}px, var(--tw-gradient-from), var(--tw-gradient-to))`;
   }
 
-  ngOnInit() {
-    this.isAuthenticated = this.authenticator.IsAuthenticated();
+  async ngOnInit() {
+    this.isAuthenticated = await this.authenticator.IsAuthenticated();
     this.gradientStyle = `radial-gradient(circle at center, var(--tw-gradient-from), var(--tw-gradient-to))`;
   }
   public LogOut(): void {
