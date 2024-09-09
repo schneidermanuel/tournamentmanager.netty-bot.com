@@ -2,6 +2,7 @@
 
 namespace Manuel\Tournamentmanager\controllers;
 
+use Manuel\Tournamentmanager\Core\DiscordApi;
 use Manuel\Tournamentmanager\Core\HeaderHelper;
 use Manuel\Tournamentmanager\Core\Request;
 use Schneidermanuel\Dynalinker\Controller\HttpGet;
@@ -11,6 +12,12 @@ use UserConfigurationEntity as UserConfigurationEntityUserConfigurationEntity;
 
 class AuthController
 {
+    private DiscordApi $api;
+
+    function __construct()
+    {
+        $this->api = new DiscordApi();
+    }
     #[HttpGet("Authenticated")]
     public function Authenticated(): void
     {
@@ -62,23 +69,11 @@ class AuthController
         }
 
         $token = explode(" ", $header)[1];
-        $url = 'https://discord.com/api/v10/oauth2/@me';
-        $options = [
-            'http' => [
-                'header' => "Content-type: application/x-www-form-urlencoded\r\nAuthorization: Bearer $token",
-            ],
-        ];
-
-        $context = stream_context_create($options);
-        $result = file_get_contents($url, false, $context);
-        $result = json_decode($result);
-        $displayName = $result->user->global_name;
-        $userId = $result->user->id;
-        $avatarUrl = $this->GetAvatarUrl($result);
+        $user = $this->api->GetUserInfoFromToken($token);
 
         $userConfigurationStore = Dynalinker::Get()->CreateStore(UserConfigurationEntity::class);
         $userConfigurationFilter = new UserConfigurationEntity();
-        $userConfigurationFilter->UserId = $userId;
+        $userConfigurationFilter->UserId = $user->UserId;
         $userConfigurationFilter->CanManage = 1;
         $userConfigurations = $userConfigurationStore->LoadWithFilter($userConfigurationFilter);
         $manage = true;
@@ -87,22 +82,13 @@ class AuthController
         }
 
         $result = new \stdClass();
-        $result->UserId = $userId;
-        $result->DisplayName = $displayName;
-        $result->AvatarUrl = $avatarUrl;
+        $result->UserId = $user->UserId;
+        $result->DisplayName = $user->DisplayName;
+        $result->AvatarUrl = $user->AvatarUrl;
         $result->Manage = $manage;
         Request::CloseWithMessage($result, "AuthInfo");
     }
 
-    private function GetAvatarUrl($response): string
-    {
-
-        if (!isset($response->avatar)) {
-            return "https://external-preview.redd.it/4PE-nlL_PdMD5PrFNLnjurHQ1QKPnCvg368LTDnfM-M.png?auto=webp&s=ff4c3fbc1cce1a1856cff36b5d2a40a6d02cc1c3";
-        }
-        $avatar_url = "https://cdn.discordapp.com/avatars/" . $response->id . "/" . $response->avatar . ".png?size=4096";
-        return $avatar_url;
-    }
 
     public function returnResult(string $jwt = null): void
     {
