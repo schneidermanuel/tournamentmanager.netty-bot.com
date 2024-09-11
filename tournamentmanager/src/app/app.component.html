@@ -1,4 +1,7 @@
-<div class="toast toast-top toast-end">
-  <notification-item *ngFor="let n of Notifications" [Text]="n.Text" [Level]="n.Level"  />
+<div [ngStyle]="{'background-image': gradientStyle}" class="w-full h-full from-neutral to-base-400 bg-radial-gradient">
+
+  <div class="toast toast-top toast-end">
+    <notification-item *ngFor="let n of Notifications" [Text]="n.Text" [Level]="n.Level" />
+  </div>
+  <router-outlet />
 </div>
-<router-outlet />

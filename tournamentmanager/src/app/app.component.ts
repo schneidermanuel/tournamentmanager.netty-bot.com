@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { NotificationItemComponent } from "../components/notification-item/notification-item.component";
 import { EventBar } from '../Data/EventBar';
-import { NgFor } from '@angular/common';
+import { NgFor, NgStyle } from '@angular/common';
 import { NotificationService } from '../Service/NotificationService';
 
 @Component({
@@ -11,7 +11,8 @@ import { NotificationService } from '../Service/NotificationService';
   imports: [
     RouterOutlet,
     NotificationItemComponent,
-    NgFor
+    NgFor,
+    NgStyle
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
@@ -22,8 +23,17 @@ export class AppComponent implements OnInit {
     this.notificationService.EventSource.subscribe(e => {
       this.Notifications.push(e);
     });
+    this.gradientStyle = `radial-gradient(circle at center, var(--tw-gradient-from), var(--tw-gradient-to))`;
   }
   title = 'tournamentmanager';
   public Notifications: EventBar[] = [];
+  gradientStyle = '';
+
+  @HostListener('mousemove', ['$event'])
+  onMouseMove(event: MouseEvent) {
+    const x = event.clientX;
+    const y = event.clientY;
+    this.gradientStyle = `radial-gradient(circle at ${x}px ${y}px, var(--tw-gradient-from), var(--tw-gradient-to))`;
+  }
 
 }
