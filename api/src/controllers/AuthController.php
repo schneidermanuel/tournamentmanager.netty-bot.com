@@ -5,10 +5,9 @@ namespace Manuel\Tournamentmanager\controllers;
 use Manuel\Tournamentmanager\Core\DiscordApi;
 use Manuel\Tournamentmanager\Core\HeaderHelper;
 use Manuel\Tournamentmanager\Core\Request;
+use Manuel\Tournamentmanager\Entities\UserConfigurationEntity;
 use Schneidermanuel\Dynalinker\Controller\HttpGet;
 use Schneidermanuel\Dynalinker\Core\Dynalinker;
-use Manuel\Tournamentmanager\Entities\UserConfigurationEntity;
-use UserConfigurationEntity as UserConfigurationEntityUserConfigurationEntity;
 
 class AuthController
 {
@@ -18,6 +17,7 @@ class AuthController
     {
         $this->api = new DiscordApi();
     }
+
     #[HttpGet("Authenticated")]
     public function Authenticated(): void
     {
@@ -64,10 +64,9 @@ class AuthController
     public function GetUser()
     {
         $header = HeaderHelper::getHeader("Authorization");
-        if (!isset($header)) {
+        if (strlen($header) == 0) {
             Request::CloseWithError("Unauthorized", 401);
         }
-
         $token = explode(" ", $header)[1];
         $user = $this->api->GetUserInfoFromToken($token);
 

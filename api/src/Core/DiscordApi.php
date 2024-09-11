@@ -15,8 +15,8 @@ class DiscordApi
 
         $context = stream_context_create($options);
         $result = file_get_contents($url, false, $context);
-        if ($this->GetStatusCode()!=200){
-            Request::CloseWithError($result, $this->GetStatusCode());
+        if ($this->GetStatusCode($http_response_header)!=200){
+            Request::CloseWithError($result, 401);
         }
         $result = json_decode($result);
         $displayName = $result->user->global_name;
@@ -38,7 +38,7 @@ class DiscordApi
         $avatar_url = "https://cdn.discordapp.com/avatars/" . $response->id . "/" . $response->avatar . ".png?size=4096";
         return $avatar_url;
     }
-    function GetStatusCode() :int {
+    function GetStatusCode($http_response_header) :int {
         if (isset($http_response_header)) {
             $status_line = $http_response_header[0];
             if (preg_match('{HTTP/\S*\s(\d{3})}', $status_line, $match)) {
