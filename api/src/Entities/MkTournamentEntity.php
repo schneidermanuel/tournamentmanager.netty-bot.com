@@ -19,6 +19,9 @@ class MkTournamentEntity
     #[Persist("organisatorDcId")]
     public $OrganisatorDcId;
 
+    #[Persist("organiserDisplayName")]
+    public $OrganiserDisplayName;
+
     #[Persist("status")]
     public $Status;
 

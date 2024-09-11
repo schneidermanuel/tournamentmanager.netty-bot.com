@@ -42,7 +42,7 @@ class TournamentsController
         if (count($userConfigurations) == 0) {
             Request::CloseWithError("Unauthorized", 401);
         }
-        $myActiveTouneyFilter = new \MkTournamentEntity();
+        $myActiveTouneyFilter = new MkTournamentEntity();
         $myActiveTouneyFilter->OrganisatorDcId = $user->UserId;
         $myActiveTouneyFilter->Status = 'preparation';
         $myTourneysPrep = $this->tournamentStore->LoadWithFilter($myActiveTouneyFilter);

@@ -27,5 +27,5 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
 $_POST = json_decode(file_get_contents("php://input"), true);
 $dynalinker = Dynalinker::Get();
 $dynalinker->AddController("Login", new AuthController());
-//$dynalinker->AddController("Tournaments", new TournamentsController());
+$dynalinker->AddController("Tournaments", new TournamentsController());
 $dynalinker->Run();
