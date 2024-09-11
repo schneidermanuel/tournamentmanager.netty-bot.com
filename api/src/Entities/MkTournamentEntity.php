@@ -1,5 +1,7 @@
 <?php
 
+namespace Manuel\Tournamentmanager\Entities;
+
 use Schneidermanuel\Dynalinker\Entity\Attribute\Entity;
 use Schneidermanuel\Dynalinker\Entity\Attribute\Persist;
 use Schneidermanuel\Dynalinker\Entity\Attribute\PrimaryKey;

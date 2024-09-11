@@ -1,5 +1,6 @@
 <?php
 
+use Manuel\Tournamentmanager\controllers\TournamentsController;
 use Schneidermanuel\Dynalinker\Core\Dynalinker;
 
 use Manuel\Tournamentmanager\controllers\AuthController;
@@ -23,4 +24,5 @@ if ($method == "OPTIONS") {
 $_POST = json_decode(file_get_contents("php://input"), true);
 $dynalinker = Dynalinker::Get();
 $dynalinker->AddController("Login", new AuthController());
+$dynalinker->AddController("Tournaments", new TournamentsController());
 $dynalinker->Run();
