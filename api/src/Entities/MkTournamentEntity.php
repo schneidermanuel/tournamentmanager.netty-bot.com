@@ -12,19 +12,16 @@ class MkTournamentEntity
     #[PrimaryKey()]
     #[Persist("tournamentId")]
     public $TournamentId;
-
     #[Persist("name")]
     public $Name;
-
     #[Persist("organisatorDcId")]
     public $OrganisatorDcId;
-
     #[Persist("organiserDisplayName")]
     public $OrganiserDisplayName;
-
     #[Persist("status")]
     public $Status;
-
     #[Persist("guildId")]
     public $GuildId;
+    #[Persist("created")]
+    public $CreatedDate;
 }

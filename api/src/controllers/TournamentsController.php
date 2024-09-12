@@ -54,7 +54,7 @@ class TournamentsController
 
         $result = new \stdClass();
         $result->OpenTournaments = $myOpenTourneys;
-        $result->CloseTournaments = $closedTourneys;
+        $result->ClosedTournaments = $closedTourneys;
         $result->OtherTournaments = $otherTourneys;
         Request::CloseWithMessage($result, "TOURNAMENTS");
 

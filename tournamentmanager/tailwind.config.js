@@ -11,7 +11,7 @@ module.exports = {
     },
   },
   daisyui: {
-    themes: ['forest', 'synthwave']
+    themes: ['forest', 'synthwave', 'luxury']
   },
   plugins: [
     require('daisyui')

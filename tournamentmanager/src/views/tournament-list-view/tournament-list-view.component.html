@@ -1,14 +1,14 @@
 <div class="w-full h-screen justify-center flex text-center flex-col">
-  <h1 class="text-4xl text-primary font-sans mb-5">Deine Tourniere</h1>
+  <h1 class="text-4xl text-primary font-sans mb-5">Deine Turniere</h1>
   <div class="w-full justify-center items-center flex text-center">
-    <tournamentlistitem class="w-full lg:w-2/3 m-2" />
+    <tournamentlistitem *ngFor="let t of Tournaments.OpenTournaments" [Tournament]="t" class="w-full lg:w-2/3 m-2" />
   </div>
   <h1 class="text-4xl text-primary font-sans mb-5">Deine Vergangene Turniere</h1>
   <div class="w-full justify-center items-center flex text-center">
-    <tournamentlistitem class="w-full lg:w-2/3 m-2" />
+    <tournamentlistitem *ngFor="let t of Tournaments.ClosedTournaments" [Tournament]="t" class="w-full lg:w-2/3 m-2" />
   </div>
-  <h1 class="text-4xl text-primary font-sans mb-5">Andere Tourniere</h1>
+  <h1 class="text-4xl text-primary font-sans mb-5">Andere Turniere</h1>
   <div class="w-full justify-center items-center flex text-center">
-    <tournamentlistitem class="w-full lg:w-2/3 m-2" />
+    <tournamentlistitem *ngFor="let t of Tournaments.OtherTournaments" [Tournament]="t" class="w-full lg:w-2/3 m-2" />
   </div>
 </div>
