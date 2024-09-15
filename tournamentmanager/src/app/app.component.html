@@ -1,5 +1,5 @@
 <div [ngStyle]="{'background-image': gradientStyle}"
-  class="w-full h-screen from-neutral to-base-400 bg-radial-gradient">
+  class="w-full h-screen from-neutral to-base-400 bg-radial-gradient fixed top-0 left-0">
 
   <div class="toast toast-top toast-end">
     <notification-item *ngFor="let n of Notifications" [Text]="n.Text" [Level]="n.Level" />

@@ -1,21 +1,21 @@
-<div class="w-full h-screen justify-center flex text-center flex-col items-center fixed left-0 top-0">
+<div class="w-full h-full justify-center flex text-center flex-col items-center">
   <div class="bg-base-300 h-28 w-full lg:w-3/4 skeleton justify-center text-center flex flex-col"
     *ngIf="Tournament == null">
     <h1 class="text-4xl text-secondary">Loading</h1>
   </div>
-  <div data-aos="zoom-in" *ngIf="Tournament != null">
-    <h1 class="text-4xl text-primary font-sans mb-5">{{Tournament.Name}}</h1>
+  <div data-aos="zoom-in" *ngIf="Tournament != null" class="flex flex-col overflow-hidden w-full lg:p-28 xl:w-3/4">
+    <h1 class="text-4xl text-primary font-sans mb-5 mt-16">{{Tournament.Name}}</h1>
     <div class="w-full m-2 flex justify-between items-center flex-col lg:flex-row gap-6">
       <h4>Status: <span>{{Tournament.Status}}</span></h4>
       <h4>Server: <span>{{Tournament.GuildName}}</span></h4>
       <h4>Code: <span>{{Tournament.Code}}</span></h4>
       <h4>Created: <span>{{Tournament.CreatedDate}}</span></h4>
       <h4>Organiser: <span>{{Tournament.OrganiserDisplayName}}</span></h4>
-      <button *ngFor="let action of ModifyStatusActions" class="btn btn-secondary btn-outline"
+      <button *ngFor="let action of ModifyStatusActions" class="btn btn-secondary btn-outline mr-2"
         (click)="ActionButtonClicked(action.NewStatus)">{{action.ActionName}}</button>
     </div>
-    <div class="overflow-x-auto">
-      <table class="table min-w-full">
+    <div class="overflow-auto w-full">
+      <table class="table">
         <thead>
           <tr>
             <th>Username</th>
