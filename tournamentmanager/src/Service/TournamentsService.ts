@@ -49,6 +49,27 @@ export class TournamentService {
       input.Users.forEach((input: any) => {
         tournament.Players.push(this.MapToUser(input))
       });
+      input.Users.forEach((input: any) => {
+        tournament.Players.push(this.MapToUser(input))
+      });
+      input.Users.forEach((input: any) => {
+        tournament.Players.push(this.MapToUser(input))
+      });
+      input.Users.forEach((input: any) => {
+        tournament.Players.push(this.MapToUser(input))
+      });
+      input.Users.forEach((input: any) => {
+        tournament.Players.push(this.MapToUser(input))
+      });
+      input.Users.forEach((input: any) => {
+        tournament.Players.push(this.MapToUser(input))
+      });
+      input.Users.forEach((input: any) => {
+        tournament.Players.push(this.MapToUser(input))
+      });
+      input.Users.forEach((input: any) => {
+        tournament.Players.push(this.MapToUser(input))
+      });
     }
     return tournament;
   }
@@ -57,7 +78,22 @@ export class TournamentService {
     player.Name = input.PlayerName;
     player.CanHost = input.CanHost;
     player.Friendcode = input.Friendcode;
-    player.Timestamp = input.Timestamp;
+    player.Timestamp = this.FormatDateTime(input.Timestamp);
+    player.DiscordId = input.DiscordId;
     return player;
   }
+  private FormatDateTime(datetimeString: string): string {
+    const date = new Date(datetimeString.replace(' ', 'T'));
+    const options: Intl.DateTimeFormatOptions = {
+      year: 'numeric',
+      month: 'numeric',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit'
+    };
+    const formatter = new Intl.DateTimeFormat("de-CH", options);
+    return formatter.format(date);
+  }
 }
+

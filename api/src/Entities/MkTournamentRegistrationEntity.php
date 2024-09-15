@@ -21,7 +21,7 @@ class MkTournamentRegistrationEntity
     #[Persist("playerName")]
     public $PlayerName;
     #[Persist("friendcode")]
-    public $Firendcode;
+    public $Friendcode;
     #[Persist("host")]
     public $CanHost;
 }

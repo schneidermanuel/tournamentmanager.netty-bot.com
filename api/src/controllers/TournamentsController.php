@@ -39,6 +39,7 @@ class TournamentsController
         $myActiveTouneyFilter->Status = 'preparation';
         $myTourneysPrep = $this->tournamentStore->LoadWithFilter($myActiveTouneyFilter);
         $myActiveTouneyFilter->Status = 'join';
+
         $myTourneysJoin = $this->tournamentStore->LoadWithFilter($myActiveTouneyFilter);
         $myOpenTourneys = array_merge($myTourneysPrep, $myTourneysJoin);
         $closedTourneys = $this->tournamentStore->CustomQuery("SELECT * FROM mk_tournament WHERE organisatorDcId = '$user->UserId' AND status IN ('closed', 'completed') ORDER BY created DESC LIMIT 5");
