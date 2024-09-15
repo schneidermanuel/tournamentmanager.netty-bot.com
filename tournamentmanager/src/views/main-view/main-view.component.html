@@ -13,7 +13,7 @@
       </div>
       <div data-aos="flip-left" class="flex flex-row justify-center" *ngIf="GlobalState.IsInited">
         <a class="btn btn-primary btn-outline mr-5" *ngIf="!isAuthenticated"
-          href="https://discord.com/oauth2/authorize?client_id=898251551183896586&response_type=code&redirect_uri=https%3A%2F%2Fapi.tournamentmanager.netty-bot.com%2FLogin%2FAuthenticated&scope=identify">Log
+          href="https://discord.com/oauth2/authorize?client_id=898251551183896586&response_type=code&redirect_uri=https%3A%2F%2Fapi.tournamentmanager.netty-bot.com%2FLogin%2FAuthenticated&scope=identify+guilds">Log
           in</a>
         <a class="btn btn-primary btn-outline mr-5" (click)="LogOut()" *ngIf="isAuthenticated">Log out</a>
         <a class="btn btn-accent btn-outline" href="mailto:kontakt@brainyxs.com" *ngIf="!isAuthenticated">Request

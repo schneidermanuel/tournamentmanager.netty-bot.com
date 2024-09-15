@@ -15,11 +15,11 @@
   <div class="collapse-content">
     <div class="flex justify-between items-center mb-4">
       <p class="text-lg font-semibold">Status: <span>{{Tournament.Status}}</span></p>
-      <button class="btn btn-secondary">Manage Tournament</button>
+      <a class="btn btn-secondary" [routerLink]="ManageLink" *ngIf="Tournament.CanManage">Manage Tournament</a>
     </div>
 
     <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
-      <div *ngFor="let p of Tournament.Players">{{p}}</div>
+      <div *ngFor="let p of Tournament.Players">{{p.Name}}</div>
     </div>
 
     <div class="flex justify-between text-sm text-gray-600">

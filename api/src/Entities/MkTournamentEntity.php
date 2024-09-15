@@ -24,4 +24,11 @@ class MkTournamentEntity
     public $GuildId;
     #[Persist("created")]
     public $CreatedDate;
+    #[Persist("identifier")]
+    public $Code;
+    public $Users;
+    public $GuildName;
+    public $CanManage;
+    public $DetailsLoaded;
+
 }

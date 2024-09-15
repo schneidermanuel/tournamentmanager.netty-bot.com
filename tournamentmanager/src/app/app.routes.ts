@@ -6,5 +6,6 @@ import { TournamentListViewComponent } from '../views/tournament-list-view/tourn
 export const routes: Routes = [
   { path: '', component: MainViewComponent },
   { path: 'list', component: TournamentListViewComponent },
-  { path: 'authenticated/:token', component: AuthenticatedViewComponent }
+  { path: 'authenticated/:token', component: AuthenticatedViewComponent },
+  { path: 'manage/:code', component: MainViewComponent },
 ];

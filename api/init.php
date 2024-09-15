@@ -9,6 +9,7 @@ require 'vendor/autoload.php';
 
 $_HEADER = getallheaders();
 
+error_reporting(E_ERROR | E_PARSE);
 if (isset($_SERVER['HTTP_ORIGIN'])) {
     header("Access-Control-Allow-Origin: {$_SERVER['HTTP_ORIGIN']}");
     header('Access-Control-Allow-Credentials: true');

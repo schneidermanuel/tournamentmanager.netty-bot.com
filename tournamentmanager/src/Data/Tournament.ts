@@ -1,3 +1,5 @@
+import { Player } from "./Player";
+
 export class Tournament {
   public CreatedDate: string;
   public GuildId: number;
@@ -6,6 +8,8 @@ export class Tournament {
   public OrganiserDisplayName: string;
   public Status: string;
   public Id: number;
-  public Players: string[];
-  public DetailsLoaded: false;
+  public Players: Player[];
+  public DetailsLoaded: boolean;
+  public Code: string;
+  public CanManage: boolean = false;
 }
