@@ -49,27 +49,6 @@ export class TournamentService {
       input.Users.forEach((input: any) => {
         tournament.Players.push(this.MapToUser(input))
       });
-      input.Users.forEach((input: any) => {
-        tournament.Players.push(this.MapToUser(input))
-      });
-      input.Users.forEach((input: any) => {
-        tournament.Players.push(this.MapToUser(input))
-      });
-      input.Users.forEach((input: any) => {
-        tournament.Players.push(this.MapToUser(input))
-      });
-      input.Users.forEach((input: any) => {
-        tournament.Players.push(this.MapToUser(input))
-      });
-      input.Users.forEach((input: any) => {
-        tournament.Players.push(this.MapToUser(input))
-      });
-      input.Users.forEach((input: any) => {
-        tournament.Players.push(this.MapToUser(input))
-      });
-      input.Users.forEach((input: any) => {
-        tournament.Players.push(this.MapToUser(input))
-      });
     }
     return tournament;
   }

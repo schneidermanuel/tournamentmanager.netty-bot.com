@@ -1,0 +1,26 @@
+<div class="modal-box max-w-lg bg-base-200 w-full">
+  <h3 class="font-bold text-lg">Edit Player <span>{{User.Name}}</span></h3>
+  <div class="form-control my-4">
+    <label class="label">
+      <span class="label-text">Player Friendcode</span>
+    </label>
+    <input type="text" placeholder="Enter Friendcode (e.g. SW-4444-5555-6666)" class="input input-bordered w-full"
+      [(ngModel)]="User.Friendcode" name="friendcode" required pattern="[A-Za-z]{2}-\d{4}-\d{4}-\d{4}"
+      #friendcode="ngModel">
+
+    <!-- Error Message for Invalid Friendcode -->
+    <div *ngIf="friendcode.invalid && (friendcode.dirty || friendcode.touched)" class="text-red-500 text-sm mt-2">
+      <span *ngIf="friendcode.errors?.['required']">Friendcode is required.</span>
+      <span *ngIf="friendcode.errors?.['pattern']">Friendcode must be in the format SW-4444-5555-6666.</span>
+    </div>
+  </div>
+  <div class="form-control my-4">
+    <label class="label">
+      <span class="label-text">Join Date & Time</span>
+    </label>
+    <input type="datetime-local" class="input input-bordered w-full" [(ngModel)]="Timestamp">
+  </div>
+  <div class="modal-action">
+    <button class="btn btn-primary" (click)="SaveChanges()">Save</button>
+  </div>
+</div>

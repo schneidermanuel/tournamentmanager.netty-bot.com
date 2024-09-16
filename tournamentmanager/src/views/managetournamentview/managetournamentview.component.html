@@ -34,7 +34,7 @@
             <input type="checkbox" class="checkbox checkbox-primary ml-5 mt-2 mb-2" disabled
               [checked]="user.CanHost == 1" />
             <td>{{user.Timestamp}}</td>
-            <button class="btn btn-warning mr-3">
+            <button class="btn btn-warning mr-3" (click)="openModal(user.DiscordId)">
               <div class="icon">
                 <svg fill="#000000" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
                   xmlns:xlink="http://www.w3.org/1999/xlink" width="22px" height="22px" viewBox="0 0 479.79 479.79"
@@ -52,6 +52,9 @@
                 </svg>
               </div>
             </button>
+            <dialog class="modal" [id]="user.DiscordId">
+              <editPlayer [User]="user" class="w-full items-center flex justify-center" />
+            </dialog>
             <button class="btn btn-error">
               <div class="icon">
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
