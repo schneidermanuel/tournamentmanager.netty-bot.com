@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Player } from '../../Data/Player';
 import { NgIf } from '@angular/common';
+import { TournamentService } from '../../Service/TournamentsService';
 
 @Component({
   selector: 'editPlayer',
@@ -14,16 +15,22 @@ import { NgIf } from '@angular/common';
   styleUrl: './edit-player.component.css'
 })
 export class EditPlayerComponent implements OnInit {
+  constructor(private tournamentService: TournamentService) {
+
+  }
   ngOnInit(): void {
     this.Timestamp = this.convertToDateTimeLocal(this.User.Timestamp);
   }
   @Input() public User: Player;
+  @Input() public Code: string;
   public Timestamp: string;
 
 
-  public SaveChanges(): void {
-    this.User.Timestamp = this.convertToCustomTimestamp(this.Timestamp);
-    console.log(this.User);
+
+  public async SaveChanges(): Promise<void> {
+    this.User.Timestamp = this.Timestamp;
+    await this.tournamentService.UpdatePlayer(this.Code, this.User);
+    this.User.Timestamp = this.convertToCustomTimestamp(this.User.Timestamp);
   }
 
   convertToDateTimeLocal(timestamp: string): string {

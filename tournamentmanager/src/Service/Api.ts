@@ -33,4 +33,33 @@ export class Api {
         return null;
       });
   }
+  public async SendPostRequest(location: string, payload: any): Promise<any> {
+    let headers = new Headers();
+    headers.set("Authorization", "Bearer " + this.cookieService.get("token"));
+    headers.set("Content-Type", "application/json");
+
+    return await fetch(this._backendUrl + location, {
+      method: "POST",
+      headers: headers,
+      body: JSON.stringify(payload)
+    })
+      .then(response => {
+        if (response.ok) {
+          return response.json();
+        }
+
+        this.notificationService.ShowError("Call to server failed with status " + response.status);
+        return null;
+      })
+      .then(data => {
+        if (data != null) {
+          if (data.Type == "OK") {
+            this.notificationService.ShowMessage(data.Message);
+          }
+          return data.Message;
+        }
+        this.notificationService.ShowWarnung("Server returned success without data");
+        return null;
+      });
+  }
 }

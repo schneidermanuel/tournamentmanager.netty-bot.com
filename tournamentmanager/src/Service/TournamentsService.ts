@@ -27,6 +27,9 @@ export class TournamentService {
     });
     return list;
   }
+  public async UpdatePlayer(tournamentIdentifier: string, player: Player) {
+    await this.api.SendPostRequest("Tournaments/" + tournamentIdentifier + "/updatePlayer", player);
+  }
   public async GetDetails(identifier: string): Promise<Tournament> {
     let result = await this.api.SendGetRequest("Tournaments/detail/" + identifier);
     let tournament = this.MapToTournament(result);
@@ -55,7 +58,10 @@ export class TournamentService {
   public MapToUser(input: any): Player {
     let player = new Player();
     player.Name = input.PlayerName;
-    player.CanHost = input.CanHost;
+    player.CanHost = false;
+    if (input.CanHost == "1") {
+      player.CanHost = true;
+    }
     player.Friendcode = input.Friendcode;
     player.Timestamp = this.FormatDateTime(input.Timestamp);
     player.DiscordId = input.DiscordId;

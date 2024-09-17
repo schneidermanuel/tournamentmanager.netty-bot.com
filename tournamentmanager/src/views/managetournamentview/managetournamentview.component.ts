@@ -6,6 +6,7 @@ import { NgFor, NgIf } from '@angular/common';
 import { ModifyStatusService } from '../../Service/ModifyStatusService';
 import { ModifyStatusAction } from '../../Service/ModifyStatusAction';
 import { EditPlayerComponent } from '../../components/edit-player/edit-player.component';
+import { ConfirmDeleteComponent } from '../../components/confirm-delete/confirm-delete.component';
 
 @Component({
   selector: 'managetournamentview',
@@ -13,7 +14,8 @@ import { EditPlayerComponent } from '../../components/edit-player/edit-player.co
   imports: [
     NgIf,
     NgFor,
-    EditPlayerComponent
+    EditPlayerComponent,
+    ConfirmDeleteComponent
   ],
   templateUrl: './managetournamentview.component.html',
   styleUrl: './managetournamentview.component.css'
@@ -43,6 +45,7 @@ export class ManagetournamentviewComponent implements OnInit {
   }
   openModal(discordId: string) {
     const escapedId = `#\\3${discordId.charAt(0)} ${discordId.substring(1)}`;
+    console.log(escapedId);
     const modal = this.elementRef.nativeElement.querySelector(escapedId);
     if (modal) {
       modal.showModal();

@@ -10,6 +10,7 @@ use Manuel\Tournamentmanager\Entities\MkTournamentEntity;
 use Manuel\Tournamentmanager\Entities\MkTournamentRegistrationEntity;
 use Manuel\Tournamentmanager\Entities\UserConfigurationEntity;
 use Schneidermanuel\Dynalinker\Controller\HttpGet;
+use Schneidermanuel\Dynalinker\Controller\HttpPost;
 use Schneidermanuel\Dynalinker\Core\Dynalinker;
 use Schneidermanuel\Dynalinker\Entity\EntityStore;
 use stdClass;
@@ -80,7 +81,35 @@ class TournamentsController
         }
         $tournamentEntity->DetailsLoaded = true;
         Request::CloseWithMessage($tournamentEntity, "TOURNAMENT");
+    }
 
+    #[HttpPost(".*/updatePlayer")]
+    public function UpdatePlayer($tournamentIdentifier)
+    {
+        $user = $this->CloseIfUserIsNotAuthorized();
+        $tournamentFilter = new MkTournamentEntity();
+        $tournamentFilter->OrganisatorDcId = $user->UserId;
+        $tournaments = $this->tournamentStore->LoadWithFilter($tournamentFilter);
+        if (count($tournaments) != 1) {
+            Request::CloseWithError("Tournament not found", 404);
+        }
+        $tournament = $tournaments[0];
+        $playerEntityFilter = new MkTournamentRegistrationEntity();
+        $playerEntityFilter->TournamentId = $tournament->TournamentId;
+        $playerEntityFilter->DiscordId = $_POST["DiscordId"];
+        $players = $this->tournamentRegistrationStore->LoadWithFilter($playerEntityFilter);
+        if (count($players) != 1) {
+            Request::CloseWithError("Bad Request");
+        }
+        if (!preg_match('/[A-Za-z]{2}-\d{4}-\d{4}-\d{4}/i', $_POST["Friendcode"])) {
+            Request::CloseWithError("Bad Friendcode", 400);
+        }
+        $playerEntity = $players[0];
+        $playerEntity->CanHost = $_POST["CanHost"];
+        $playerEntity->Friendcode = $_POST["Friendcode"];
+        $playerEntity->Timestamp = $_POST["Timestamp"];
+        $this->tournamentRegistrationStore->SaveOrUpdate($playerEntity);
+        Request::CloseWithMessage("Player updated", "OK");
     }
 
     /**
