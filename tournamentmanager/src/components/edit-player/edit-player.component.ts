@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Player } from '../../Data/Player';
 import { NgIf } from '@angular/common';
@@ -24,10 +24,12 @@ export class EditPlayerComponent implements OnInit {
   @Input() public User: Player;
   @Input() public Code: string;
   public Timestamp: string;
+  @Output() close = new EventEmitter<void>();
 
 
 
   public async SaveChanges(): Promise<void> {
+    this.close.emit();
     this.User.Timestamp = this.Timestamp;
     await this.tournamentService.UpdatePlayer(this.Code, this.User);
     this.User.Timestamp = this.convertToCustomTimestamp(this.User.Timestamp);

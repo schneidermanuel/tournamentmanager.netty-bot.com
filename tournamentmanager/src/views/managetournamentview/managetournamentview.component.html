@@ -51,8 +51,9 @@
                 </svg>
               </div>
             </button>
-            <dialog class="modal" [id]="user.DiscordId + 'Edit'">
-              <editPlayer [User]="user" class="w-full items-center flex justify-center" [Code]="Tournament.Code" />
+            <dialog class="modal" [id]="user.DiscordId + 'Edit'" #editModal>
+              <editPlayer [User]="user" class="w-full items-center flex justify-center" [Code]="Tournament.Code"
+                (close)="editModal.close()" />
             </dialog>
             <button class="btn btn-error" (click)="openModal(user.DiscordId +'Delete')">
               <div class="icon">

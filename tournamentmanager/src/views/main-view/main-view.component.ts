@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Authenticator } from '../../Service/Authenticator';
 import { RouterLink } from '@angular/router';
 import { GlobalState } from '../../Service/GlobalState';
+import { NotificationService } from '../../Service/NotificationService';
 
 @Component({
   selector: 'app-main-view',
@@ -18,14 +19,16 @@ import { GlobalState } from '../../Service/GlobalState';
 export class MainViewComponent implements OnInit {
   public isAuthenticated: boolean = false;
 
-  constructor(private authenticator: Authenticator, public GlobalState: GlobalState) { }
+  constructor(private authenticator: Authenticator, public GlobalState: GlobalState, private notificationService: NotificationService) { }
   gradientStyle = '';
 
   async ngOnInit() {
     this.isAuthenticated = await this.authenticator.IsAuthenticated();
   }
+
   public LogOut(): void {
     this.authenticator.LogOut();
     this.isAuthenticated = false;
+    this.notificationService.ShowMessage("Logged out")
   }
 }
