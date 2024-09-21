@@ -30,6 +30,10 @@ export class TournamentService {
   public async UpdatePlayer(tournamentIdentifier: string, player: Player) {
     await this.api.SendPostRequest("Tournaments/" + tournamentIdentifier + "/updatePlayer", player);
   }
+
+  public async DeletePlayer(player: Player, tournamentIdentifier: string): Promise<void> {
+    await this.api.SendPostRequest("Tournaments/" + tournamentIdentifier + "/deletePlayer", player);
+  }
   public async GetDetails(identifier: string): Promise<Tournament> {
     let result = await this.api.SendGetRequest("Tournaments/detail/" + identifier);
     let tournament = this.MapToTournament(result);

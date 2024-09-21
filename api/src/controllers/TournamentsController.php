@@ -89,6 +89,7 @@ class TournamentsController
         $user = $this->CloseIfUserIsNotAuthorized();
         $tournamentFilter = new MkTournamentEntity();
         $tournamentFilter->OrganisatorDcId = $user->UserId;
+        $tournamentFilter->Code = $tournamentIdentifier;
         $tournaments = $this->tournamentStore->LoadWithFilter($tournamentFilter);
         if (count($tournaments) != 1) {
             Request::CloseWithError("Tournament not found", 404);
@@ -110,6 +111,34 @@ class TournamentsController
         $playerEntity->Timestamp = $_POST["Timestamp"];
         $this->tournamentRegistrationStore->SaveOrUpdate($playerEntity);
         Request::CloseWithMessage("Player updated", "OK");
+    }
+
+    #[HttpPost(".*/deletePlayer")]
+    public function DeletePlayer($tournamentIdentifier)
+    {
+        $user = $this->CloseIfUserIsNotAuthorized();
+
+        $tournamentFilter = new MkTournamentEntity();
+        $tournamentFilter->OrganisatorDcId = $user->UserId;
+        $tournamentFilter->Code = $tournamentIdentifier;
+        $tournaments = $this->tournamentStore->LoadWithFilter($tournamentFilter);
+        if (count($tournaments) != 1) {
+            Request::CloseWithError("Tournament not found", 404);
+        }
+
+        $tournament = $tournaments[0];
+        $playerEntityFilter = new MkTournamentRegistrationEntity();
+        $playerEntityFilter->TournamentId = $tournament->TournamentId;
+        $playerEntityFilter->DiscordId = $_POST["DiscordId"];
+        $players = $this->tournamentRegistrationStore->LoadWithFilter($playerEntityFilter);
+
+        if (count($players) != 1) {
+            Request::CloseWithError("Player not found", 404);
+        }
+        $playerEntity = $players[0];
+        $this->tournamentRegistrationStore->DeleteById($playerEntity->Id);
+
+        Request::CloseWithMessage("Player deleted", "OK");
     }
 
     /**

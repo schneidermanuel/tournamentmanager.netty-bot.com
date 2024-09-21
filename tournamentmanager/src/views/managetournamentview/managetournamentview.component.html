@@ -68,7 +68,8 @@
               </div>
             </button>
             <dialog class="modal" [id]="user.DiscordId + 'Delete'">
-              <confirmDelete [User]="user" class="items-center flex justify-center" />
+              <confirmDelete [User]="user" class="items-center flex justify-center" [Code]="Tournament.Code"
+                (PlayerDeleted)="UserDeleted($event)" />
             </dialog>
           </tr>
         </tbody>

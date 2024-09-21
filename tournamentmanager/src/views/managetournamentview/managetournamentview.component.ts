@@ -7,6 +7,8 @@ import { ModifyStatusService } from '../../Service/ModifyStatusService';
 import { ModifyStatusAction } from '../../Service/ModifyStatusAction';
 import { EditPlayerComponent } from '../../components/edit-player/edit-player.component';
 import { ConfirmDeleteComponent } from '../../components/confirm-delete/confirm-delete.component';
+import { Player } from '../../Data/Player';
+import { User } from '../../Data/User';
 
 @Component({
   selector: 'managetournamentview',
@@ -45,11 +47,13 @@ export class ManagetournamentviewComponent implements OnInit {
   }
   openModal(discordId: string) {
     const escapedId = `#\\3${discordId.charAt(0)} ${discordId.substring(1)}`;
-    console.log(escapedId);
     const modal = this.elementRef.nativeElement.querySelector(escapedId);
     if (modal) {
       modal.showModal();
     }
+  }
+  public UserDeleted(user: Player) {
+    this.Tournament.Players = this.Tournament.Players.filter((x: Player) => x.DiscordId != user.DiscordId);
   }
 
 }
