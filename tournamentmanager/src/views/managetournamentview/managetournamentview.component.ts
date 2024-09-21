@@ -54,5 +54,12 @@ export class ManagetournamentviewComponent implements OnInit {
   public UserDeleted(user: Player) {
     this.Tournament.Players = this.Tournament.Players.filter((x: Player) => x.DiscordId != user.DiscordId);
   }
+  public openDeleteTournamentModal() {
+    const modal = this.elementRef.nativeElement.querySelector("#deleteModal");
+    modal.showModal();
+  }
+  public Delete() {
+    console.log("weg");
+  }
 
 }
