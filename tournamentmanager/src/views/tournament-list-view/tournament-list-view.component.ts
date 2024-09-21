@@ -27,6 +27,14 @@ export class TournamentListViewComponent implements OnInit {
     let list = await this.tournamentService.GetTournaments();
     this.Tournaments = list;
   }
+  public async TournamentCreated() {
+    this.Tournaments = null;
+    const modal = this.elementRef.nativeElement.querySelector("#CreateModal");
+    console.log(modal);
+    modal.close();
+    let list = await this.tournamentService.GetTournaments();
+    this.Tournaments = list;
+  }
   public CreateTournament() {
     const modal = this.elementRef.nativeElement.querySelector("#CreateModal");
     if (modal) {

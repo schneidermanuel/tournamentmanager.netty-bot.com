@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Tournament } from '../../Data/Tournament';
 import { NgFor, NgIf } from '@angular/common';
@@ -20,6 +20,8 @@ export class CreateTournamentComponent implements OnInit {
   public Tournament: Tournament;
   public Servers: DiscordServer[] = [];
 
+  @Output() public TournamentCreated: EventEmitter<void> = new EventEmitter<void>();
+
 
   constructor(private tournamentService: TournamentService) {
     this.Tournament = new Tournament();
@@ -30,5 +32,6 @@ export class CreateTournamentComponent implements OnInit {
   }
   public async CreateTournament() {
     await this.tournamentService.CreateTournament(this.Tournament);
+    this.TournamentCreated.emit();
   }
 }

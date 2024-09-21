@@ -15,6 +15,6 @@
     <tournamentlistitem *ngFor="let t of Tournaments.OtherTournaments" [Tournament]="t" class="w-full lg:w-2/3 m-2" />
   </div>
   <dialog class="modal w-full" id="CreateModal">
-    <createTournament class="items-center flex justify-center w-full lg:w-2/3" />
+    <createTournament class="items-center flex justify-center w-full lg:w-2/3" (TournamentCreated)="TournamentCreated()" />
   </dialog>
 </div>

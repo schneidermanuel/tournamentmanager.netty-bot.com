@@ -13,7 +13,6 @@ use Schneidermanuel\Dynalinker\Controller\HttpGet;
 use Schneidermanuel\Dynalinker\Controller\HttpPost;
 use Schneidermanuel\Dynalinker\Core\Dynalinker;
 use Schneidermanuel\Dynalinker\Entity\EntityStore;
-use stdClass;
 
 class TournamentsController
 {
@@ -51,6 +50,49 @@ class TournamentsController
         $result->ClosedTournaments = $closedTourneys;
         $result->OtherTournaments = $otherTourneys;
         Request::CloseWithMessage($result, "TOURNAMENTS");
+    }
+    #[HttpPost("create")]
+    public function CreateTournament()
+    {
+        $user = $this->CloseIfUserIsNotAuthorized();
+
+        if (strlen($_POST['Name']) < 5) {
+            Request::CloseWithError("Tournament name must be at least 5 characters long", 400);
+        }
+
+        $tournament = new MkTournamentEntity();
+        $tournament->Name = $_POST['Name'];
+        $tournament->OrganisatorDcId = $user->UserId;
+        $tournament->OrganiserDisplayName = $user->DisplayName;
+        $tournament->Status = 'preparation';
+        $tournament->GuildId = $_POST['GuildId'];
+        $tournament->CreatedDate = date("Y-m-d H:i:s");
+        $tournament->Code = substr(bin2hex(random_bytes(16)), 0, 4);
+
+        $token = HeaderHelper::getHeader("Authorization");
+        if (!isset($token)) {
+            Request::CloseWithError("Unauthorized", 401);
+        }
+        $token = explode(" ", $token)[1];
+
+        $guilds = $this->api->GetUserServers($token);
+        $matchingGuild = null;
+
+        foreach ($guilds as $guild) {
+            if ($guild->ServerId == $_POST['GuildId']) {
+                $matchingGuild = $guild;
+                break;
+            }
+        }
+
+        if ($matchingGuild === null) {
+            Request::CloseWithError("Guild not found", 404);
+        }
+
+        $tournament->GuildName = $matchingGuild->ServerName;
+
+        $this->tournamentStore->SaveOrUpdate($tournament);
+        Request::CloseWithMessage("Tournament created", "OK");
     }
 
     #[HttpGet("discordServers")]
