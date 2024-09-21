@@ -1,0 +1,37 @@
+<div class="modal-box max-w-lg bg-base-200 w-full">
+  <form #CreateForm="ngForm" novalidate>
+    <h3 class="font-bold text-lg">Create New Tournament</h3>
+    <div class="form-control my-4">
+      <label class="label">
+        <span class="label-text">Tournament Name</span>
+      </label>
+      <input type="text" placeholder="my new tournament at 1.1.2020" class="input input-bordered w-full"
+        [(ngModel)]="Tournament.Name" name="name" required minlength="5" #name="ngModel">
+
+      <div *ngIf="name.invalid && (name.dirty || name.touched)" class="text-red-500 text-sm mt-2">
+        <span *ngIf="name.errors?.['required']">Name is required.</span>
+        <span *ngIf="name.errors?.['minlength']">Name must be at least 5 characters long.</span>
+      </div>
+    </div>
+
+    <div class="form-control my-4">
+      <label class="label">
+        <span class="label-text">Server</span>
+      </label>
+      <select class="select select-bordered w-full" [(ngModel)]="Tournament.GuildId" name="server" required
+        #server="ngModel">
+        <option disabled selected>Select Server</option>
+        <option *ngFor="let s of Servers" [value]="s.Id">{{s.Name}}</option>
+      </select>
+
+      <div *ngIf="server.invalid && (server.dirty || server.touched)" class="text-red-500 text-sm mt-2">
+        <span *ngIf="server.errors?.['required']">Server selection is required.</span>
+      </div>
+    </div>
+
+    <div class="modal-action">
+      <button class="btn btn-primary btn-outline" [disabled]="CreateForm.invalid"
+        (click)="CreateTournament()">Create</button>
+    </div>
+  </form>
+</div>

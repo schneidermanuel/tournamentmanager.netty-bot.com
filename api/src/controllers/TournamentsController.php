@@ -53,6 +53,18 @@ class TournamentsController
         Request::CloseWithMessage($result, "TOURNAMENTS");
     }
 
+    #[HttpGet("discordServers")]
+    public function GetDiscordServers()
+    {
+        $header = HeaderHelper::getHeader("Authorization");
+        if (!isset($header)) {
+            Request::CloseWithError("Unauthorized", 401);
+        }
+        $token = explode(" ", $header)[1];
+        $results = $this->api->GetUserServers($token);
+        Request::CloseWithMessage($results, "SERVERS");
+    }
+
     #[HttpGet("detail/.*")]
     public function GetDetails($identifier)
     {

@@ -3,6 +3,7 @@ import { Api } from "./Api";
 import { Tournament } from "../Data/Tournament";
 import { TournamentList } from "../Data/TournamentList";
 import { Player } from "../Data/Player";
+import { DiscordServer } from "../Data/DiscordServer";
 
 @Injectable({
   providedIn: 'root'
@@ -33,6 +34,20 @@ export class TournamentService {
 
   public async DeletePlayer(player: Player, tournamentIdentifier: string): Promise<void> {
     await this.api.SendPostRequest("Tournaments/" + tournamentIdentifier + "/deletePlayer", player);
+  }
+  public async GetServers(): Promise<DiscordServer[]> {
+    let servers = await this.api.SendGetRequest("Tournaments/discordServers");
+    let results: DiscordServer[] = [];
+    servers.forEach((r: any) => {
+      let server = new DiscordServer();
+      server.Name = r.ServerName;
+      server.Id = r.ServerId;
+      results.push(server);
+    });
+    return results;
+  }
+  public async CreateTournament(tournament: Tournament) {
+    await this.api.SendPostRequest("Tournaments/create", tournament);
   }
   public async GetDetails(identifier: string): Promise<Tournament> {
     let result = await this.api.SendGetRequest("Tournaments/detail/" + identifier);

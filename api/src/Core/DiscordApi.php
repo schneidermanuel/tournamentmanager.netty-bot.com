@@ -48,6 +48,35 @@ class DiscordApi
         return $result;
     }
 
+    public function GetUserServers($token): array /*array<DiscordServer>*/
+    {
+        $url = 'https://discord.com/api/v10/users/@me/guilds';
+        $options = [
+            'http' => [
+                'header' => "Content-type: application/x-www-form-urlencoded\r\nAuthorization: Bearer $token",
+            ],
+        ];
+
+        $context = stream_context_create($options);
+        $result = file_get_contents($url, false, $context);
+        if ($this->GetStatusCode($http_response_header) != 200) {
+            Request::CloseWithError($result, 401);
+        }
+
+        $result = json_decode($result);
+        $servers = [];
+
+        foreach ($result as $guild) {
+            $server = new DiscordServer();
+            $server->ServerName = $guild->name;
+            $server->ServerId = $guild->id;
+
+            $servers[] = $server;
+        }
+
+        return $servers;
+    }
+
     private function GetAvatarUrl($response): string
     {
 

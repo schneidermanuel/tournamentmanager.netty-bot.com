@@ -8,7 +8,6 @@ import { ModifyStatusAction } from '../../Service/ModifyStatusAction';
 import { EditPlayerComponent } from '../../components/edit-player/edit-player.component';
 import { ConfirmDeleteComponent } from '../../components/confirm-delete/confirm-delete.component';
 import { Player } from '../../Data/Player';
-import { User } from '../../Data/User';
 
 @Component({
   selector: 'managetournamentview',

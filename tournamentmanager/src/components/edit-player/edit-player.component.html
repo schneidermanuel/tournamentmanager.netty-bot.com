@@ -7,7 +7,7 @@
       </label>
       <input type="text" placeholder="Enter Friendcode (e.g. SW-4444-5555-6666)" class="input input-bordered w-full"
         [(ngModel)]="User.Friendcode" name="friendcode" required pattern="[A-Za-z]{2}-\d{4}-\d{4}-\d{4}"
-        #friendcode="ngModel" [ngModelOptions]="{standalone: true}">
+        #friendcode="ngModel">
 
       <div *ngIf="friendcode.invalid && (friendcode.dirty || friendcode.touched)" class="text-red-500 text-sm mt-2">
         <span *ngIf="friendcode.errors?.['required']">Friendcode is required.</span>

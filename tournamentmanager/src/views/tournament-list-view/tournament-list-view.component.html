@@ -1,6 +1,9 @@
 <div class="w-full h-screen justify-center flex text-center flex-col">
   <h1 class="text-4xl text-primary font-sans mb-5">Deine Turniere</h1>
-  <div class="w-full justify-center items-center flex text-center">
+  <div class="w-full justify-center items-center flex text-center flex-col">
+    <div class="w-full lg:w-2/3 flex justify-end">
+      <button (click)="CreateTournament()" class="btn btn-primary btn-outline w-auto mr-5">Create new</button>
+    </div>
     <tournamentlistitem *ngFor="let t of Tournaments.OpenTournaments" [Tournament]="t" class="w-full lg:w-2/3 m-2" />
   </div>
   <h1 class="text-4xl text-primary font-sans mb-5">Deine Vergangene Turniere</h1>
@@ -11,4 +14,7 @@
   <div class="w-full justify-center items-center flex text-center">
     <tournamentlistitem *ngFor="let t of Tournaments.OtherTournaments" [Tournament]="t" class="w-full lg:w-2/3 m-2" />
   </div>
+  <dialog class="modal w-full" id="CreateModal">
+    <createTournament class="items-center flex justify-center w-full lg:w-2/3" />
+  </dialog>
 </div>
