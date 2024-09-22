@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit } from '@angular/core';
 import { TournamentService } from '../../Service/TournamentsService';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Tournament } from '../../Data/Tournament';
 import { NgFor, NgIf } from '@angular/common';
 import { ModifyStatusService } from '../../Service/ModifyStatusService';
@@ -29,11 +29,19 @@ export class ManagetournamentviewComponent implements OnInit {
     private tournamentService: TournamentService,
     private route: ActivatedRoute,
     private modifyStatusService: ModifyStatusService,
-    private elementRef: ElementRef
+    private elementRef: ElementRef,
+    private router: Router
   ) {
   }
-  public ActionButtonClicked(newStauts: string) {
-    console.log(newStauts);
+  public async ActionButtonClicked(newStatus: string) {
+    let code = this.Tournament.Code;
+    this.Tournament = null;
+    await this.tournamentService.SetStatus(code, newStatus);
+    let tournament = await this.tournamentService.GetDetails(code);
+
+    this.ModifyStatusActions = this.modifyStatusService.GetValidActions(tournament.Status);
+
+    this.Tournament = tournament;
   }
 
   async ngOnInit(): Promise<void> {
@@ -58,8 +66,9 @@ export class ManagetournamentviewComponent implements OnInit {
     const modal = this.elementRef.nativeElement.querySelector("#deleteModal");
     modal.showModal();
   }
-  public Delete() {
-    console.log("weg");
+  public async Delete() {
+    await this.tournamentService.DeleteTournament(this.Tournament.Code);
+    this.router.navigateByUrl('/list')
   }
 
 }

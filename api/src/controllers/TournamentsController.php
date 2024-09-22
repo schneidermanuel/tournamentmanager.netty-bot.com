@@ -51,6 +51,7 @@ class TournamentsController
         $result->OtherTournaments = $otherTourneys;
         Request::CloseWithMessage($result, "TOURNAMENTS");
     }
+
     #[HttpPost("create")]
     public function CreateTournament()
     {
@@ -165,6 +166,55 @@ class TournamentsController
         $playerEntity->Timestamp = $_POST["Timestamp"];
         $this->tournamentRegistrationStore->SaveOrUpdate($playerEntity);
         Request::CloseWithMessage("Player updated", "OK");
+    }
+
+    #[HttpPost(".*/setStatus")]
+    public function SetStatus($tournamentIdentifier)
+    {
+        $user = $this->CloseIfUserIsNotAuthorized();
+        $tournamentFilter = new MkTournamentEntity();
+        $tournamentFilter->OrganisatorDcId = $user->UserId;
+        $tournamentFilter->Code = $tournamentIdentifier;
+        $tournaments = $this->tournamentStore->LoadWithFilter($tournamentFilter);
+        if (count($tournaments) != 1) {
+            Request::CloseWithError("Tournament not found", 404);
+        }
+        $tournament = $tournaments[0];
+        $newStatus = $_POST["Status"];
+        if ($newStatus != "preparation" && $newStatus != "join" && $newStatus != "closed" && $newStatus != "completed") {
+            Request::CloseWithError("Bad Status", 400);
+        }
+        $tournament->Status = $newStatus;
+        $this->tournamentStore->SaveOrUpdate($tournament);
+        Request::CloseWithMessage("Tournament updated", "OK");
+    }
+
+    #[HttpPost(".*/delete")]
+    public function DeleteTournament($tournamentIdentifier)
+    {
+        $user = $this->CloseIfUserIsNotAuthorized();
+
+        $tournamentFilter = new MkTournamentEntity();
+        $tournamentFilter->OrganisatorDcId = $user->UserId;
+        $tournamentFilter->Code = $tournamentIdentifier;
+        $tournaments = $this->tournamentStore->LoadWithFilter($tournamentFilter);
+
+        if (count($tournaments) != 1) {
+            Request::CloseWithError("Tournament not found", 404);
+        }
+
+        $tournament = $tournaments[0];
+        $registrationFilter = new MkTournamentRegistrationEntity();
+        $registrationFilter->TournamentId = $tournament->TournamentId;
+        $registrations = $this->tournamentRegistrationStore->LoadWithFilter($registrationFilter);
+
+        foreach ($registrations as $registration) {
+            $this->tournamentRegistrationStore->DeleteById($registration->Id);
+        }
+
+        $this->tournamentStore->DeleteById($tournament->TournamentId);
+
+        Request::CloseWithMessage("Tournament deleted", "OK");
     }
 
     #[HttpPost(".*/deletePlayer")]

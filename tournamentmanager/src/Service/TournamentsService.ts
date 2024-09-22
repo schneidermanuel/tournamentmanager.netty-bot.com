@@ -9,6 +9,7 @@ import { DiscordServer } from "../Data/DiscordServer";
   providedIn: 'root'
 })
 export class TournamentService {
+
   constructor(private api: Api) { }
 
   public async GetTournaments(): Promise<TournamentList> {
@@ -28,6 +29,17 @@ export class TournamentService {
     });
     return list;
   }
+
+  public async SetStatus(code: string, newStatus: any) {
+    var t = new Tournament();
+    t.Status = newStatus;
+    await this.api.SendPostRequest("Tournaments/" + code + "/setStatus", t);
+  }
+
+  public async DeleteTournament(code: string) {
+    await this.api.SendPostRequest("Tournaments/" + code + "/delete", "")
+  }
+
   public async UpdatePlayer(tournamentIdentifier: string, player: Player) {
     await this.api.SendPostRequest("Tournaments/" + tournamentIdentifier + "/updatePlayer", player);
   }
@@ -35,6 +47,7 @@ export class TournamentService {
   public async DeletePlayer(player: Player, tournamentIdentifier: string): Promise<void> {
     await this.api.SendPostRequest("Tournaments/" + tournamentIdentifier + "/deletePlayer", player);
   }
+
   public async GetServers(): Promise<DiscordServer[]> {
     let servers = await this.api.SendGetRequest("Tournaments/discordServers");
     let results: DiscordServer[] = [];
@@ -46,14 +59,17 @@ export class TournamentService {
     });
     return results;
   }
+
   public async CreateTournament(tournament: Tournament) {
     await this.api.SendPostRequest("Tournaments/create", tournament);
   }
+
   public async GetDetails(identifier: string): Promise<Tournament> {
     let result = await this.api.SendGetRequest("Tournaments/detail/" + identifier);
     let tournament = this.MapToTournament(result);
     return tournament;
   }
+
   public MapToTournament(input: any): Tournament {
     let tournament = new Tournament();
     tournament.GuildId = input.GuildId;
@@ -67,13 +83,16 @@ export class TournamentService {
     tournament.CanManage = input.CanManage;
     tournament.GuildName = input.GuildName;
     tournament.DetailsLoaded = input.DetailsLoaded;
+
     if (input.Users) {
       input.Users.forEach((input: any) => {
         tournament.Players.push(this.MapToUser(input))
       });
     }
+
     return tournament;
   }
+
   public MapToUser(input: any): Player {
     let player = new Player();
     player.Name = input.PlayerName;
@@ -86,6 +105,7 @@ export class TournamentService {
     player.DiscordId = input.DiscordId;
     return player;
   }
+
   private FormatDateTime(datetimeString: string): string {
     const date = new Date(datetimeString.replace(' ', 'T'));
     const options: Intl.DateTimeFormatOptions = {
