@@ -95,6 +95,9 @@ export class TournamentService {
     tournament.Players = [];
     tournament.CanManage = input.CanManage;
     tournament.GuildName = input.GuildName;
+    tournament.RoleId = input.RoleId;
+    tournament.RoleName = input.RoleName;
+    console.log(tournament);
     tournament.DetailsLoaded = input.DetailsLoaded;
 
     if (input.Users) {
