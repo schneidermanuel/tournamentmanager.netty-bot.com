@@ -68,6 +68,10 @@ class TournamentsController
         $tournament->Status = 'preparation';
         $tournament->GuildId = $_POST['GuildId'];
         $tournament->CreatedDate = date("Y-m-d H:i:s");
+        if (isset($_POST["RoleId"]))
+        {
+            $tournament->RoleId = $_POST["RoleId"];
+        }
         $tournament->Code = substr(bin2hex(random_bytes(16)), 0, 4);
 
         $token = HeaderHelper::getHeader("Authorization");
@@ -96,17 +100,6 @@ class TournamentsController
         Request::CloseWithMessage("Tournament created", "OK");
     }
 
-    #[HttpGet("discordServers")]
-    public function GetDiscordServers()
-    {
-        $header = HeaderHelper::getHeader("Authorization");
-        if (!isset($header)) {
-            Request::CloseWithError("Unauthorized", 401);
-        }
-        $token = explode(" ", $header)[1];
-        $results = $this->api->GetUserServers($token);
-        Request::CloseWithMessage($results, "SERVERS");
-    }
 
     #[HttpGet("detail/.*")]
     public function GetDetails($identifier)
@@ -133,6 +126,15 @@ class TournamentsController
         $tournamentEntity->CanManage = false;
         if ($tournamentEntity->OrganisatorDcId == $dcUser->UserId) {
             $tournamentEntity->CanManage = true;
+        }
+        if (isset($tournamentEntity->RoleId))
+        {
+            $roles = $this->api->GetRolesByGuildId($tournamentEntity->GuildId);
+            $role = array_reduce($roles, function($carry, $role) use ($tournamentEntity) {
+                return $role->RoleId == $tournamentEntity->RoleId ? $role : $carry;
+            });
+            $tournamentEntity->RoleName = $role->RoleName;
+
         }
         $tournamentEntity->DetailsLoaded = true;
         Request::CloseWithMessage($tournamentEntity, "TOURNAMENT");

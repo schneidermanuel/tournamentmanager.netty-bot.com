@@ -19,7 +19,7 @@
         <span class="label-text">Server</span>
       </label>
       <select class="select select-bordered w-full" [(ngModel)]="Tournament.GuildId" name="server" required
-        #server="ngModel">
+        #server="ngModel" (ngModelChange)="onServerChange($event)">
         <option disabled selected>Select Server</option>
         <option *ngFor="let s of Servers" [value]="s.Id">{{s.Name}}</option>
       </select>
@@ -27,7 +27,20 @@
       <div *ngIf="server.invalid && (server.dirty || server.touched)" class="text-red-500 text-sm mt-2">
         <span *ngIf="server.errors?.['required']">Server selection is required.</span>
       </div>
+
     </div>
+    <div class="form-control my-4">
+      <label class="label">
+        <span class="label-text">Role</span>
+      </label>
+
+      <select class="select select-bordered w-full" [ngClass]="{'skeleton': !RolesLoaded}" [(ngModel)]="Tournament.RoleId" name="role"
+        #role="ngModel">
+        <option selected *ngIf="Roles.length != 0"></option>
+        <option selected disabled *ngIf="Roles.length == 0">Roles not loaded. Make sure Netty is joined on this Server</option>
+        <option *ngFor="let s of Roles" [value]="s.Id">{{s.Name}}</option>
+      </select>
+      </div>
 
     <div class="modal-action">
       <button class="btn btn-primary btn-outline" [disabled]="CreateForm.invalid"

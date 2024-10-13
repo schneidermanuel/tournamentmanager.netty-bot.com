@@ -12,4 +12,6 @@ export class Tournament {
   public DetailsLoaded: boolean;
   public Code: string;
   public CanManage: boolean = false;
+  public RoleId: string;
+  public RoleName: string;
 }

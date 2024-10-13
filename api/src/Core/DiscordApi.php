@@ -97,4 +97,37 @@ class DiscordApi
         }
         return -1;
     }
+    public function GetRolesByGuildId($guildId): array /* array<DiscordRole> */
+    {
+        $url = 'https://discord.com/api/v10/guilds/' . $guildId . '/roles';
+        $options = [
+            'http' => [
+                'header' => "Content-type: application/x-www-form-urlencoded\r\nAuthorization: Bot " . $_ENV['BOT_TOKEN'],
+            ],
+        ];
+
+        $context = stream_context_create($options);
+        $result = file_get_contents($url, false, $context);
+
+        if ($this->GetStatusCode($http_response_header) != 200) {
+            return [];
+        }
+
+        $result = json_decode($result);
+        $roles = [];
+
+        foreach ($result as $role) {
+            if ($role->name == "@everyone")
+            {
+                continue;
+            }
+            $discordRole = new DiscordRole();
+            $discordRole->RoleId = $role->id;
+            $discordRole->RoleName = $role->name;
+
+            $roles[] = $discordRole;
+        }
+
+        return $roles;
+    }
 }

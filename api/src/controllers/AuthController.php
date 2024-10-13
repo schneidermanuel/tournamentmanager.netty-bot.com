@@ -13,7 +13,7 @@ class AuthController
 {
     private DiscordApi $api;
 
-    function __construct()
+    public function __construct()
     {
         $this->api = new DiscordApi();
     }
