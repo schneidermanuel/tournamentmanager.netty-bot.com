@@ -11,6 +11,7 @@
       <h4>Code: <span>{{Tournament.Code}}</span></h4>
       <h4 *ngIf="Tournament.RoleName">Rolle: <span>{{Tournament.RoleName}}</span></h4>
       <h4>Created: <span>{{Tournament.CreatedDate}}</span></h4>
+      <h4>Players: <span>{{Tournament.CountPlayers()}}</span></h4>
       <h4>Organiser: <span>{{Tournament.OrganiserDisplayName}}</span></h4>
       <button *ngFor="let action of ModifyStatusActions" class="btn btn-secondary btn-outline mr-2"
         (click)="ActionButtonClicked(action.NewStatus)">{{action.ActionName}}</button>

@@ -14,4 +14,8 @@ export class Tournament {
   public CanManage: boolean = false;
   public RoleId: string;
   public RoleName: string;
+
+  public CountPlayers(): number {
+    return this.Players.length;
+  }
 }

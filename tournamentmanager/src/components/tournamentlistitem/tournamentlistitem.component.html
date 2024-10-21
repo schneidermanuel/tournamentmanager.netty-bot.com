@@ -15,6 +15,7 @@
   <div class="collapse-content">
     <div class="flex justify-between items-center mb-4">
       <p class="text-lg font-semibold">Status: <span>{{Tournament.Status}}</span></p>
+      <p class="text-lg font-semibold">Players: <span>{{Tournament.CountPlayers()}}</span></p>
       <a class="btn btn-secondary" [routerLink]="ManageLink" *ngIf="Tournament.CanManage">Manage Tournament</a>
     </div>
 
