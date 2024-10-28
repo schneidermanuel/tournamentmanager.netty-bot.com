@@ -28,9 +28,11 @@ export class Authenticator {
     }
     if (!this.globalState.IsInited) {
       let result = await this.api.SendGetRequest("Login/me");
-      if (!result.Manage) {
+      if (result == null || !result.Manage) {
         this.cookieService.delete("token");
         this.notificationService.ShowWarnung("Sorry, you can't access Netty-Tournaments at the moment")
+        this.globalState.IsInited = true;
+        return false;
       }
       this.globalState.User = new User();
       this.globalState.User.UserId = result.UserId;

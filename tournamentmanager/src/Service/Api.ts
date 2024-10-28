@@ -21,12 +21,18 @@ export class Api {
         if (response.ok) {
           return response.json();
         }
+        if (response.status == 401) {
+          this.cookieService.delete("token");
+        }
 
         this.notificationService.ShowError("Call to server failed with status " + response.status);
         return null;
       })
       .then(data => {
-        if (data != null) {
+        if (data == null) {
+          return null;
+        }
+        if (data.Message != null) {
           return data.Message;
         }
         this.notificationService.ShowWarnung("Server returned success without data")
